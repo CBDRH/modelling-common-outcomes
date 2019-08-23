@@ -1,0 +1,406 @@
+---
+title: "Working with odds ratios and risk ratios "
+output:
+  learnr::tutorial:
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(ggplot2)
+library(xtable)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+The risk ratio and odds ratio are two common effect estimates used to quantify the association between an exposure and a binary outcome. In this short interactive tutorial you will learn: 
+
+* To distinguish between odds ratios and risk ratios 
+* To calculate these values using R programming
+
+## Pop Quiz
+
+*Before getting started, test your current knowledge about odds and risk ratios*
+
+```{r quiz1}
+quiz(
+  question("Odds ratios can be estimated using which of the following generalised linear models?",
+    answer("Logistic regression", correct = TRUE),
+    answer("Poisson regression"),
+    answer("Probit regression"),
+    answer("Log-binomial regression"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Risk Ratios are an appropriate effect estimate in which of the following study designs? (tick all that apply)",
+    answer("RCT", correct = TRUE),
+    answer("Cohort study", correct = TRUE),
+    answer("Case-control study", message = "Risk ratios can't be used for case-control studies because the total number of exposed cases is unknown"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("The risk ratio and the odds ratio are never exactly the same, true or false?",
+    answer("False", correct = TRUE, message = "When the odds ratio is 1, the risk ratio is also exactly 1"),
+    answer("True", message = "When the odds ratio is 1, the risk ratio is also exactly 1"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+
+## Basic concepts
+
+### Odds ratios versus risk ratios 
+
+The terms odds ratio and risk ratio are often used interchangeably or interpreted in the same way, but they are different quantities. 
+
+#### The Odds
+The _odds_ of an outcome in a given group or population is the number of times the outcome occurs divided by the number of times the outcome does not occur. 
+
+#### The Odds Ratio
+The _odds ratio_ is the ratio of two odds: the odds of the outcome in the exposed group divided by the odds of the outcome in the unexposed group.
+
+#### The Risk
+
+The _risk_ of a binary outcome in a given group is the same as a _probability_, i.e. the number of times the outcome occurs divided by the total number of individuals in the group.
+
+#### The Risk Ratio
+The _risk ratio_ is the ratio of two risks: the risk of the outcome in the exposed group divided by the risk of the outcome in the unexposed group.
+
+
+### Illustration
+
+We can illustrate these definitions with a simple example. Consider the following table which includes a binary exposure and binary outcome.
+
+![](images/tab1.png){width=300}
+
+
+#### The Odds Ratio
+
+
+The odds of the outcome in the exposed group is 
+$$
+odds_{exposed} = \frac{a}{b}
+$$
+Similarly, the odds of the outcome in the non-exposed group is 
+$$
+odds_{non-exposed} = \frac{c}{d}
+$$
+
+The _odds ratio_ (OR) is the ratio of these values, i.e. the odds of death in the drug group relative to the placebo group is
+
+$$
+OR = \frac{odds_{exposed}}{odds_{non-exposed}} = \frac{ad}{bc}
+$$
+
+
+#### The Risk Ratio
+
+The _risk_ of the outcome for the exposed group is 
+
+$$
+risk_{exposed} = \frac{a}{a+b}
+$$ 
+
+The risk of the outcome for the non-exposed group is
+
+$$
+risk_{non-exposed} = \frac{c}{c+d}
+$$
+
+The _risk ratio_ (RR) is the ratio of these two values: 
+
+$$
+RR = \frac{risk_{exposed}}{risk_{non-exposed}} = \frac{a/(a+b)}{c/(c+d)}
+$$
+
+
+**Note a key difference when calculating the odds and the risk is the denominator used**
+
+### A worked example 
+Consider a randomised control trial studying the effect of meditation on students' emotional state. Study participants were randomised to either the treatment group or a control group. The treated group were taught mindfulness techniques and asked to meditate for 20 minutes every day, while a control group made no change to their routine. At the end of the study, participants reported their emotional state. 
+
+The data found that out of 50 students in the treated group, 45 reported being calm, while 5 reported being stressed at the end of the study. Out of 200 patients in the control group, 40 reported being stressed, while 160 reported being calm.
+
+We can arrange these data in a 2 $\times$ 2 table as before.
+
+![](images/tab2.png){width=300}
+
+#### Odds 
+Following the previous example, the odds of being calm versus stressed for the meditation group is
+$$
+odds_{meditation}=\frac{a}{b} = \frac{45}{5} = 9
+$$
+We can interpret this as saying that for every 9 calm people in the meditation group there was one stressed person.
+
+The odds of being calm versus stressed for the control group is
+$$
+odds_{control}=\frac{a}{b} = \frac{160}{40} = 4
+$$
+We can interpret this as saying for every 4 calm people in the control group there was one stressed person.
+
+#### Odds Ratio
+
+The odds ratio is the odds in the meditation group divided by the odds in the control group:
+
+$$
+OR = \frac{odds_{meditation}}{odds_{control}} = \frac{9}{4} = 2.25
+$$
+We can interpret this as saying the odds of feeling calm was 2.25 times higher in the group who practiced meditation compared to the control group.
+
+#### Risk 
+
+The probability or "risk" of being calm in the meditation group is 
+$$
+risk_{meditation} = \frac{a}{a + b} = \frac{45}{50} = 0.90
+$$
+The probability or "risk" of being calm in the control group is 
+$$
+risk_{control} = \frac{c}{c + d} = \frac{160}{200} = 0.80
+$$
+
+#### Risk ratio 
+The risk ratio is the probability or "risk" of being calm in the meditation group divided by the "risk"" of being calm in the control group:
+
+$$
+RR = \frac{risk_{meditation}}{risk_{control}}=\frac{0.90}{0.80} = 1.125
+$$
+We can interpret this as saying the probability of being calm was 12.5% higher in the group practicing meditation compared to the group that did not.
+
+## Test your understanding  {data-progressive=TRUE}
+
+_To test your understanding of the concepts in the previous section, try answering the following questions on odds and risk ratios. You can use R programmig code within the interactive coding blocks to perform any calculations. Click the hint button if you need help getting started_
+
+
+### Scenario
+
+In a cohort study examining infection after surgery among 125 patients, 25 were treated with a novel antibiotic therapy while the remainder received care as usual. In the treated group, 5 patients developed an infection and in the usual care group 40 patients developed an infection.
+
+<br>
+
+![](images/tab3.png){width=400}
+
+<br>
+
+```{r quiz2}
+quiz(
+  question("What are the correct values of a,b,c and d in the 2 x 2 table above",
+    answer("a=20, b=5, c=60, d=40", correct = TRUE),
+    answer("a=5, b=20, c=40, d=60"),
+    answer("a=20, b=25, c=60, d=100"),
+    answer("a=5, b=25, c=40, d=100"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE)
+)
+
+```
+
+
+
+
+
+```{r quiz3a}
+quiz(
+  question("The odds of remaining infection-free in the new antibiotic group is",
+    answer("4", correct = TRUE),
+    answer("5"),
+    answer("0.25"),
+    answer("0.2"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE)
+)
+```
+
+```{r calca, exercise=TRUE, exercise.lines=8, exercise.cap="Run R code in this chunk to carry out any necessary calculations, or click 'Hint' for help"}
+
+a <- 
+b <- 
+c <- 
+d <- 
+
+
+
+```
+
+``` {r calca-hint}
+a <- 20
+b <- 5
+c <- 60
+d <- 40
+
+odds_treated <- a/b
+odds_treated
+
+```
+
+<br>
+
+
+  
+```{r quiz3b}
+quiz(  
+  question("The risk or probability of remaining infection-free in the usual-care group is",
+    answer("0.60", correct = TRUE),
+    answer("0.80"),
+    answer("1.25"),
+    answer("1.33"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE)
+)
+```
+
+
+```{r calcb, exercise=TRUE, exercise.lines=8, exercise.cap="Run R code in this chunk to carry out any necessary calculations, or click 'Hint' for help"}
+
+```
+
+``` {r calcb-hint}
+
+a <- 20
+b <- 5
+c <- 60
+d <- 40
+
+risk_control <- c/(c+d)
+risk_control
+
+```
+
+<br>
+  
+```{r quiz3c}
+quiz(    
+  question("The Odds Ratio of infection for the treated group relative to the usual-care group is",
+    answer("2.67", correct = TRUE),
+    answer("1.50"),
+    answer("2.00"),
+    answer("4.00"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE)
+)
+```
+  
+```{r calcc, exercise=TRUE, exercise.lines=8, exercise.cap="Run R code in this chunk to carry out any necessary calculations, or click 'Hint' for help"}
+
+```
+
+``` {r calcc-hint}
+a <- 20
+b <- 5
+c <- 60
+d <- 40
+
+odds_treated <- a/b
+odds_control <- c/d
+
+or <- odds_treated/odds_control
+or
+
+```  
+
+<br>  
+  
+```{r quiz3d}
+quiz (
+  question("The Risk Ratio of infection for the treated group relative to the usual-care group is",
+    answer("1.33", correct = TRUE),
+    answer("0.80"),
+    answer("0.60"),
+    answer("2.667"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE)  
+)
+```
+
+
+```{r calcd, exercise=TRUE, exercise.lines=8, exercise.cap="Run R code in this chunk to carry out any necessary calculations, or click 'Hint' for help"}
+
+```
+
+``` {r calcd-hint}
+
+a <- 20
+b <- 5
+c <- 60
+d <- 40
+
+risk_treated <- a/(a+b)
+risk_control <- c/(c+d)
+
+rr <- risk_treated/risk_control
+rr
+
+
+```
+
+
+Click **Continue** to see the solution.
+
+### Solution
+
+How did you do? If you got all the questions correct, congratulations, you've clearly grasped the fundamentals!
+
+Let's have a look at the solution. To start, it can be helpful to summarise the available data in a 2 $\times$ 2 table as before:
+
+![](images/tab4.png){width=400}
+
+
+The first question asks for **the odds of remaining infection-free in the treated group**. Recall that the odds in a group is the number of times the outcome occurs divided by the number of times the outcome does not occur. So for the treated group, we have:
+
+$$
+odds_{treated} = 20/5 = 4
+$$
+Interpretation: In the treated group, for every patient who experienced a post-survey infection, there were four patients who did not experience an infection. 
+
+The second question asks for **the probability of remaining infection-free in the usual-care group**. Recall the probability or "risk" of an outcome in a given group is the number of times the outcome occurs divided by the total number of individuals in the group. So for the usual-care group, we have:
+
+$$
+risk_{usual.care} = 60/100 = 0.60
+$$
+Interpretation: The probability of remaining infection-free in the usual care group was 60%.
+
+The third question asks for **the Odds Ratio of remaining infection-free for the treated group relative to the usual-care group**. We've already calculated the numerator for this quantity above, the odds for the treated group. The odds for the usual care group is:
+
+$$
+odds_{usual.care} = 60/40 = 1.5
+$$
+The odds ratio is therefore:
+
+$$
+OR = \frac{odds_{treated}}{odds_{usual.care}} = \frac{4}{1.5} = 2.67
+$$
+Interpretation: The odds of remaining infection-free was 2.67 times higher in the group receiving the new antibiotic compared to the usual care group.
+
+
+The fourth question asks for **The Risk Ratio for remaining infection-free for the treated group relative to the usual-care group**. We've calculated the risk in the usual care group for Question 2, so we are halfway there already. The risk in the treated group is:
+
+$$
+risk_{treated} = 20/25 = 0.80
+$$
+Therefore, the risk ratio is given by
+
+$$
+RR = \frac{risk_{treated}}{risk_{usual.care}} = \frac{0.80}{0.60} = 1.33
+$$
+Interpretation: The probability of remaining infection-free was 33% higher in the antibiotic group compared to the usual care group.
+
+
+## Summary 
+
+In this tutorial you have learned 
+
+* The odds of an outcome in a group the number with the outcome divided by the number without the outcome  
+* The odds ratio is the odds in the treated group divided by the odds in the control group 
+* The risk of an outcome in a group is the number with the outcome divided by the total number in the group 
+* The risk ratio is the risk in the treated group divided by the risk in the control group  
+
+### Next Tutorial 
+In the next tutorial you will learn 
+
+* How to choose between the odds ratio and risk ratio as a measure of association 
+* How to estimate odds and risk ratios while controlling for confounding variables
+
+
