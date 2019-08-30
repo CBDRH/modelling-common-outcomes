@@ -31,21 +31,18 @@ quiz(
     answer("Poisson regression"),
     answer("Probit regression"),
     answer("Log-binomial regression"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE
+    allow_retry = TRUE
   ),
   question("Risk Ratios are an appropriate effect estimate in which of the following study designs? (tick all that apply)",
     answer("RCT", correct = TRUE),
     answer("Cohort study", correct = TRUE),
     answer("Case-control study", message = "Risk ratios can't be used for case-control studies because the total number of exposed cases is unknown"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE
+    allow_retry = TRUE
   ),
   question("The risk ratio and the odds ratio are never exactly the same, true or false?",
     answer("False", correct = TRUE, message = "When the odds ratio is 1, the risk ratio is also exactly 1"),
     answer("True", message = "When the odds ratio is 1, the risk ratio is also exactly 1"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE
+    allow_retry = TRUE
   )
 )
 ```
@@ -192,8 +189,7 @@ quiz(
     answer("a=5, b=20, c=40, d=60"),
     answer("a=20, b=25, c=60, d=100"),
     answer("a=5, b=25, c=40, d=100"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE)
+    allow_retry = TRUE)
 )
 
 ```
@@ -209,8 +205,7 @@ quiz(
     answer("5"),
     answer("0.25"),
     answer("0.2"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE)
+    allow_retry = TRUE)
 )
 ```
 
@@ -247,8 +242,7 @@ quiz(
     answer("0.80"),
     answer("1.25"),
     answer("1.33"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE)
+    allow_retry = TRUE)
 )
 ```
 
@@ -273,13 +267,12 @@ risk_control
   
 ```{r quiz3c}
 quiz(    
-  question("The Odds Ratio of infection for the treated group relative to the usual-care group is",
+  question("The Odds Ratio of remaining infection-free for the treated group relative to the usual-care group is",
     answer("2.67", correct = TRUE),
     answer("1.50"),
     answer("2.00"),
     answer("4.00"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE)
+    allow_retry = TRUE)
 )
 ```
   
@@ -305,13 +298,12 @@ or
   
 ```{r quiz3d}
 quiz (
-  question("The Risk Ratio of infection for the treated group relative to the usual-care group is",
+  question("The Risk Ratio of remaining infection-free for the treated group relative to the usual-care group is",
     answer("1.33", correct = TRUE),
     answer("0.80"),
     answer("0.60"),
     answer("2.667"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE)  
+    allow_retry = TRUE)  
 )
 ```
 
