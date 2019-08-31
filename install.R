@@ -1,0 +1,6 @@
+install.packages("rmarkdown")
+install.packages("shiny")
+install.packages("learnr")
+install.packages("ggplot2")
+install.packages("knitr")
+install.packages("xtable")
