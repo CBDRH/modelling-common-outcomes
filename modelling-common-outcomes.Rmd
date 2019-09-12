@@ -22,7 +22,7 @@ The risk ratio and odds ratio are two common effect estimates used to quantify t
 
 ## Pop Quiz
 
-*Before getting started, test your current knowledge about odds and risk ratios*
+*Before getting started, test your current knowledge about odds and risk ratios.*
 
 ```{r quiz1}
 quiz(
@@ -115,7 +115,7 @@ RR = \frac{risk_{exposed}}{risk_{non-exposed}} = \frac{a/(a+b)}{c/(c+d)}
 $$
 
 
-**Note a key difference when calculating the odds and the risk is the denominator used**
+**Note a key difference when calculating the odds and the risk is the denominator used.**
 
 ### A worked example 
 Consider a randomised control trial studying the effect of meditation on students' emotional state. Study participants were randomised to either the treatment group or a control group. The treated group were taught mindfulness techniques and asked to meditate for 20 minutes every day, while a control group made no change to their routine. At the end of the study, participants reported their emotional state. 
@@ -169,7 +169,7 @@ We can interpret this as saying the probability of being calm was 12.5% higher i
 
 ## Test your understanding  {data-progressive=TRUE}
 
-_To test your understanding of the concepts in the previous section, try answering the following questions on odds and risk ratios. You can use R programmig code within the interactive coding blocks to perform any calculations. Click the hint button if you need help getting started_
+_To test your understanding of the concepts in the previous section, try answering the following questions on odds and risk ratios. You can use R programmi.g code within the interactive coding blocks to perform any calculations. Click the hint button if you need help getting started._
 
 
 ### Scenario
@@ -384,10 +384,10 @@ Interpretation: The probability of remaining infection-free was 33% higher in th
 
 In this tutorial you have learned 
 
-* The odds of an outcome in a group the number with the outcome divided by the number without the outcome  
-* The odds ratio is the odds in the treated group divided by the odds in the control group 
-* The risk of an outcome in a group is the number with the outcome divided by the total number in the group 
-* The risk ratio is the risk in the treated group divided by the risk in the control group  
+* The **odds** of an outcome in a group is the number with the outcome divided by the number without the outcome  
+* The **odds ratio** is the odds in the treated group divided by the odds in the control group 
+* The **risk** of an outcome in a group is the number with the outcome divided by the total number of individuals in the group 
+* The **risk ratio** is the risk in the treated group divided by the risk in the control group  
 
 ### Next Tutorial 
 In the next tutorial you will learn 
