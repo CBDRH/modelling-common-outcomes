@@ -169,7 +169,7 @@ We can interpret this as saying the probability of being calm was 12.5% higher i
 
 ## Test your understanding  {data-progressive=TRUE}
 
-_To test your understanding of the concepts in the previous section, try answering the following questions on odds and risk ratios. You can use R programmi.g code within the interactive coding blocks to perform any calculations. Click the hint button if you need help getting started._
+_To test your understanding of the concepts in the previous section, try answering the following questions on odds and risk ratios. You can use R programming code within the interactive coding blocks to perform any calculations. Click the hint button if you need help getting started._
 
 
 ### Scenario
